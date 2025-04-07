@@ -25,7 +25,7 @@ Contact::Contact() : id(0), firstname(""), lastname(""), nickname("") {
 
 void	Contact::setId(void) {
 	static int	index = 1;
-	Contact::id = index;
+	this->id = index;
 	index++;
 }
 

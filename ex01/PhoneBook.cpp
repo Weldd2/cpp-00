@@ -8,24 +8,24 @@ PhoneBook::PhoneBook(void) {
 
 void	PhoneBook::setId(void) {
 	static int	index = 1;
-	if (PhoneBook::id != 0)
+	if (this->id != 0)
 		return ;
-	PhoneBook::id = index;
+	this->id = index;
 	index++;
 }
 
 void	PhoneBook::addContact(Contact c)
 {
-	if (PhoneBook::getNbContact() >= 8)
-		PhoneBook::contacts.pop_front();
-	PhoneBook::contacts.push_back(c);
-	PhoneBook::contacts_sorted = contacts;
-	PhoneBook::contacts_sorted.sort();
+	if (this->getNbContact() >= 8)
+		this->contacts.pop_front();
+	this->contacts.push_back(c);
+	this->contacts_sorted = contacts;
+	this->contacts_sorted.sort();
 }
 
 int	PhoneBook::getNbContact()
 {
-	return PhoneBook::contacts.size();
+	return this->contacts.size();
 }
 
 Contact PhoneBook::getContactById(int id)
