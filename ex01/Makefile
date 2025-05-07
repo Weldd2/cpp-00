@@ -1,4 +1,4 @@
-NAME		= phonebook
+NAME		= phonebook 
 
 # Compiler and flags
 CXX			= c++

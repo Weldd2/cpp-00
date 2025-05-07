@@ -1,58 +1,79 @@
-#include "phoneBook.hpp"
+#include "PhoneBook.hpp"
 
 PhoneBook::PhoneBook(void) {
-	PhoneBook::setId();
-	contacts = std::list<Contact>();
-	contacts_sorted = contacts;
-}
+	this->nb_contacts = 0;
+};
 
-void	PhoneBook::setId(void) {
-	static int	index = 1;
-	if (this->id != 0)
-		return ;
-	this->id = index;
-	index++;
-}
-
-void	PhoneBook::addContact(Contact c)
+PhoneBook::PhoneBook(const PhoneBook& p)
 {
-	if (this->getNbContact() >= 8)
-		this->contacts.pop_front();
-	this->contacts.push_back(c);
-	this->contacts_sorted = contacts;
-	this->contacts_sorted.sort();
-}
-
-int	PhoneBook::getNbContact()
-{
-	return this->contacts.size();
-}
-
-Contact PhoneBook::getContactById(int id)
-{
-	for (std::list<Contact>::iterator it = contacts.begin(); it != contacts.end(); ++it)
-	{
-		if (it->id == id)
-			return *it;
+	for (std::size_t i = 0; i < p.nb_contacts; ++i) {
+		this->contacts[i] = p.contacts[i];
 	}
-	return contacts.front();
-}
+	this->nb_contacts = p.nb_contacts;
+};
 
-void PhoneBook::printContactList(void)
+PhoneBook::~PhoneBook(void) {};
+
+PhoneBook	&PhoneBook::operator=(const PhoneBook& p)
 {
-	std::cout	<< "|----------|----------|----------|----------|" << std::endl
-				<< "|        ID| Firstname|  Lastname|  Nickname|" << std::endl
-				<< "|----------|----------|----------|----------|" << std::endl;
-	int index = 1;
-	for (std::list<Contact>::iterator it = contacts_sorted.begin(); it != contacts_sorted.end(); ++it, ++index)
+	if (this != &p)
 	{
-		std::cout	<< "|"
-					<< std::setw(10) << index << "|"
-					<< std::setw(10) << truncate((*it).firstname) << "|"
-					<< std::setw(10) << truncate((*it).lastname) << "|"
-					<< std::setw(10) << truncate((*it).nickname) << "|"
-					<< std::endl;
+		for (std::size_t i = 0; i < p.nb_contacts; ++i) {
+			this->contacts[i] = p.contacts[i];
+		}
+		this->nb_contacts = p.nb_contacts;
 	}
-	std::cout << "|----------|----------|----------|----------|" << std::endl;
+	return *this;
 }
 
+std::string	print_truncate(std::string s)
+{
+	if (s.length() >= 10)
+		return (s.substr(0, 9) + ".");
+	return (s);
+}
+
+void	PhoneBook::printContacts(void)
+{
+	std::cout
+		<< "=============================================" << std::endl
+		<< "|" << std::setw(10) << "index"
+		<< "|" << std::setw(10) << "firstname"
+		<< "|" << std::setw(10) << "lastname"
+		<< "|" << std::setw(10) << "nickname" << "|" << std::endl
+		<< "=============================================" << std::endl;
+	for (std::size_t i = 0; i < this->nb_contacts; ++i) {
+		std::cout
+			<< "|" << std::setw(10) << i + 1
+			<< "|" << std::setw(10) << print_truncate(this->contacts[i].getFirstname())
+			<< "|" << std::setw(10) << print_truncate(this->contacts[i].getLastname())
+			<< "|" << std::setw(10) << print_truncate(this->contacts[i].getNickname()) << "|"
+		<< std::endl;
+	}
+	std::cout
+		<< "=============================================" << std::endl;
+}
+
+void	PhoneBook::addContact(const Contact& c)
+{
+	if (this->nb_contacts == 8)
+	{
+		std::cout << this->nb_contacts;
+		for (std::size_t i = 0; i < this->nb_contacts - 1; i++)
+			this->contacts[i] = this->contacts[i + 1];
+	}
+	if (this->nb_contacts != 8)
+		this->nb_contacts += 1;
+	this->contacts[this->nb_contacts - 1] = c;
+	this->printContacts();
+}
+
+Contact&	PhoneBook::getContact(std::size_t index)
+{
+	if (index >= this->nb_contacts)
+	{
+		std::cerr << "error: invalid index" << std::endl;
+		throw std::out_of_range("Invalid index");
+	}
+	return (this->contacts[index]);
+}

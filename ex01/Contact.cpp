@@ -1,100 +1,60 @@
-#include "phoneBook.hpp"
+#include "Contact.hpp"
+
+Contact::Contact(void) {};
+
+Contact::Contact(const Contact& c)
+{
+	this->firstname = c.firstname;
+	this->lastname = c.lastname;
+	this->nickname = c.nickname;
+	this->phoneNumber = c.phoneNumber;
+	this->darkestSecret = c.darkestSecret;
+}
+
+Contact::~Contact(void) {}
+
+Contact &Contact::operator=(const Contact& c)
+{
+	if (this != &c) {
+		this->firstname = c.firstname;
+		this->lastname = c.lastname;
+		this->nickname = c.nickname;
+		this->phoneNumber = c.phoneNumber;
+		this->darkestSecret = c.darkestSecret;
+	}
+	return *this;
+}
 
 Contact::Contact(
-	std::string first,
-	std::string last,
-	std::string nick,
-	std::string phone,
-	std::string secret
-) {
-	if (first.empty() || last.empty() || nick.empty() || 
-		phone.empty() || secret.empty()) {
-		throw std::invalid_argument("All contact fields must be non-empty");
-	}
-	setId();
-	firstname = first;
-	lastname = last;
-	nickname = nick;
-	phoneNumber = phone;
-	darkestSecret = secret;
-}
-	
-Contact::Contact() : id(0), firstname(""), lastname(""), nickname("") {
-	setId();
-}
+	const std::string& firstname,
+	const std::string& lastname,
+	const std::string& nickname,
+	const std::string& phoneNumber,
+	const std::string& darkestSecret
+)
+{
+	this->firstname = firstname;
+	this->lastname = lastname;
+	this->nickname = nickname;
+	this->phoneNumber = phoneNumber;
+	this->darkestSecret = darkestSecret;
+};
 
-void	Contact::setId(void) {
-	static int	index = 1;
-	this->id = index;
-	index++;
-}
-
-std::ostream& operator<<(std::ostream& os, const Contact& c) {
-	os
+std::ostream& operator<<(std::ostream& out, const Contact& c)
+{
+	out
 		<< "firstname : " << c.firstname << std::endl
 		<< "lastname : " << c.lastname << std::endl
 		<< "nickname : " << c.nickname << std::endl
 		<< "phone number : " << c.phoneNumber << std::endl
-		<< "darkest secret : " << c.darkestSecret << std::endl;
-	return os;
+		<< "darkest secret : " << c.darkestSecret << std::endl
+	;
+	return out;
 }
 
-bool Contact::operator<(const Contact& other) const {
-	if (lastname != other.lastname) {
-		return lastname < other.lastname;
-	}
-	return firstname < other.firstname;
-}
+std::string	Contact::getFirstname(void) { return this->firstname; }
+std::string	Contact::getLastname(void) { return this->lastname; }
+std::string	Contact::getNickname(void) { return this->nickname; }
+std::string	Contact::getPhoneNumber(void) { return this->phoneNumber; }
+std::string	Contact::getDarkestSecret(void) { return this->darkestSecret; }
 
-int Contact::getId(void) const {
-	return id;
-}
-
-std::string Contact::getFirstname(void) const {
-	return firstname;
-}
-
-std::string Contact::getLastname(void) const {
-	return lastname;
-}
-
-std::string Contact::getNickname(void) const {
-	return nickname;
-}
-
-std::string Contact::getPhoneNumber(void) const {
-	return phoneNumber;
-}
-
-std::string Contact::getSecret(void) const {
-	return darkestSecret;
-}
-
-std::istream& operator>>(std::istream& is, Contact& c) {
-	std::cout << "Firstname : " << std::endl;
-	is >> c.firstname;
-	if (c.firstname.empty()) {
-		throw std::invalid_argument("Firstname cannot be empty");
-	}
-	std::cout << "Lastname : " << std::endl;
-	is >> c.lastname;
-	if (c.lastname.empty()) {
-		throw std::invalid_argument("Lastname cannot be empty");
-	}
-	std::cout << "Nickname : " << std::endl;
-	is >> c.nickname;
-	if (c.nickname.empty()) {
-		throw std::invalid_argument("Nickname cannot be empty");
-	}
-	std::cout << "PhoneNumber : " << std::endl;
-	is >> c.phoneNumber;
-	if (c.phoneNumber.empty()) {
-		throw std::invalid_argument("PhoneNumber cannot be empty");
-	}
-	std::cout << "Darkest Secret : " << std::endl;
-	std::getline(is >> std::ws, c.darkestSecret);
-	if (c.darkestSecret.empty()) {
-		throw std::invalid_argument("Darkest Secret cannot be empty");
-	}
-	return is;
-}

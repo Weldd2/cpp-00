@@ -1,59 +1,67 @@
-#include "phoneBook.hpp"
+#include "Contact.hpp"
+#include "PhoneBook.hpp"
+#include <sstream>
 
-void	ft_toupper(std::string *str) {
-	for (std::size_t i = 0; i < (*str).length(); i++) {
-		(*str)[i] = std::toupper((*str)[i]);
+void	add(PhoneBook &p)
+{
+	std::string	firstname;
+	std::string	lastname;
+	std::string	nickname;
+	std::string	darkestSecret;
+	std::string	phoneNumber;
+
+	std::cin >> firstname;
+	std::cin.clear();
+	std::cin >> lastname;
+	std::cin.clear();
+	std::cin >> nickname;
+	std::cin.clear();
+	std::cin >> darkestSecret;
+	std::cin.clear();
+	std::cin >> phoneNumber;
+	std::cin.clear();
+	p.addContact(Contact(firstname, lastname, nickname, phoneNumber, darkestSecret));
+}
+
+void	search(PhoneBook &p)
+{
+	std::string	index;
+	p.printContacts();
+	std::cout << "contact to print (cancel to return to menu) :" << std::endl;
+	std::cin >> index;
+	int num;
+	if (index == "CANCEL")
+		return ;
+	try {
+		std::istringstream iss(index);
+		if (iss >> num) {
+			std::cout << p.getContact(num - 1);
+		} else {
+			throw std::invalid_argument("invalid index");
+		}
+	} catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
 	}
 }
 
-std::string truncate(std::string str) {
-	if (str.length() > 10)
-		return str.substr(0, 9) + ".";
-	return str;
-}
-
-void	add(PhoneBook *book)
+int	main(void)
 {
-	Contact c;
-	std::cin >> c;
-	book->addContact(c);
-	std::cout << "Contact added successfully" << std::endl;
-	std::cout << "Contact count : " << book->getNbContact() << std::endl;
-}
-
-void	search(PhoneBook book)
-{
-	int			id;
-	std::string	s_id;
-
-	book.printContactList();
-	std::cout << "Type the id or BACK : ";
-	std::cin >> s_id;
-	ft_toupper(&s_id);
-	if (s_id == "BACK")
-		return ;
-	std::istringstream(s_id) >> id;
-	std::cout << book.getContactById(id);
-}
-
-int main(void)
-{
-	PhoneBook book = PhoneBook();
-	std::string action;
-
-	while (1) {
-		std::cout	<< "What do you want to do ?" << std::endl
-					<< "ADD, "
-					<< (book.getNbContact() > 0 ? "SEARCH, " : "")  
-					<< "EXIT" << std::endl;
+	std::string	action;
+	PhoneBook p;
+	while (1)
+	{
+		std::cout << "what do you want to do ?" << std::endl;
+		std::cout << "- ADD" << std::endl;
+		std::cout << "- SEARCH" << std::endl;
+		std::cout << "- EXIT" << std::endl;
 		std::cin >> action;
-		ft_toupper(&action);
-		if (action == "ADD")
-			add(&book);
 		if (action == "EXIT")
 			break ;
-		if (book.getNbContact() >= 0 && action == "SEARCH")
-			search(book);
+		if (action == "ADD")
+			add(p);
+		if (action == "SEARCH")
+			search(p);
+		std::cin.clear();
 	}
-	return 0;
 }
