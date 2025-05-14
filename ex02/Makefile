@@ -32,6 +32,15 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo "$(YELLOW)Compiling $<$(RESET)"
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
+diff: re
+	@echo "$(YELLOW)Creating log file$(RESET)"
+	@./$(NAME) > file.log
+	@echo "$(YELLOW)Apply diff$(RESET)"
+	@cut -c22- 19920104_091532.log > orig_cut.log
+	@cut -c22- file.log > new_cut.log
+	@diff -s orig_cut.log new_cut.log || true
+	@rm -f orig_cut.log new_cut.log
+
 clean:
 	@echo "$(YELLOW)Cleaning object files...$(RESET)"
 	@rm -rf $(OBJ_DIR)
