@@ -15,14 +15,15 @@ Contact::~Contact(void) {}
 
 Contact &Contact::operator=(const Contact& c)
 {
-	if (this != &c) {
+	if (this != &c)
+	{
 		this->firstname = c.firstname;
 		this->lastname = c.lastname;
 		this->nickname = c.nickname;
 		this->phoneNumber = c.phoneNumber;
 		this->darkestSecret = c.darkestSecret;
 	}
-	return *this;
+	return (*this);
 }
 
 Contact::Contact(
@@ -49,12 +50,12 @@ std::ostream& operator<<(std::ostream& out, const Contact& c)
 		<< "phone number : " << c.phoneNumber << std::endl
 		<< "darkest secret : " << c.darkestSecret << std::endl
 	;
-	return out;
+	return (out);
 }
 
-std::string	Contact::getFirstname(void) { return this->firstname; }
-std::string	Contact::getLastname(void) { return this->lastname; }
-std::string	Contact::getNickname(void) { return this->nickname; }
-std::string	Contact::getPhoneNumber(void) { return this->phoneNumber; }
-std::string	Contact::getDarkestSecret(void) { return this->darkestSecret; }
+std::string	Contact::getFirstname(void) { return (this->firstname); }
+std::string	Contact::getLastname(void) { return (this->lastname); }
+std::string	Contact::getNickname(void) { return (this->nickname); }
+std::string	Contact::getPhoneNumber(void) { return (this->phoneNumber); }
+std::string	Contact::getDarkestSecret(void) { return (this->darkestSecret); }
 

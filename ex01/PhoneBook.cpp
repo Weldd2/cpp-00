@@ -1,14 +1,14 @@
 #include "PhoneBook.hpp"
 
-PhoneBook::PhoneBook(void) {
+PhoneBook::PhoneBook(void)
+{
 	this->nb_contacts = 0;
 };
 
 PhoneBook::PhoneBook(const PhoneBook& p)
 {
-	for (std::size_t i = 0; i < p.nb_contacts; ++i) {
+	for (std::size_t i = 0; i < p.nb_contacts; ++i)
 		this->contacts[i] = p.contacts[i];
-	}
 	this->nb_contacts = p.nb_contacts;
 };
 
@@ -18,19 +18,16 @@ PhoneBook	&PhoneBook::operator=(const PhoneBook& p)
 {
 	if (this != &p)
 	{
-		for (std::size_t i = 0; i < p.nb_contacts; ++i) {
+		for (std::size_t i = 0; i < p.nb_contacts; ++i)
 			this->contacts[i] = p.contacts[i];
-		}
 		this->nb_contacts = p.nb_contacts;
 	}
-	return *this;
+	return (*this);
 }
 
 std::string	print_truncate(std::string s)
 {
-	if (s.length() >= 10)
-		return (s.substr(0, 9) + ".");
-	return (s);
+	return (s.length() >= 10 ? s.substr(0, 9) + "." : s);
 }
 
 void	PhoneBook::printContacts(void)
@@ -42,7 +39,8 @@ void	PhoneBook::printContacts(void)
 		<< "|" << std::setw(10) << "lastname"
 		<< "|" << std::setw(10) << "nickname" << "|" << std::endl
 		<< "=============================================" << std::endl;
-	for (std::size_t i = 0; i < this->nb_contacts; ++i) {
+	for (std::size_t i = 0; i < this->nb_contacts; ++i)
+	{
 		std::cout
 			<< "|" << std::setw(10) << i + 1
 			<< "|" << std::setw(10) << print_truncate(this->contacts[i].getFirstname())
@@ -50,8 +48,7 @@ void	PhoneBook::printContacts(void)
 			<< "|" << std::setw(10) << print_truncate(this->contacts[i].getNickname()) << "|"
 		<< std::endl;
 	}
-	std::cout
-		<< "=============================================" << std::endl;
+	std::cout << "=============================================" << std::endl;
 }
 
 void	PhoneBook::addContact(const Contact& c)
