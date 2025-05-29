@@ -54,7 +54,7 @@ void search(PhoneBook &p)
 	{
 		std::istringstream iss(answer);
 		if (iss >> num)
-			std::cout << p.getContact(num - 1);
+			p.getContact(num - 1).PrintContact();
 		else
 			throw std::invalid_argument("invalid answer");
 	}

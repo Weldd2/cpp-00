@@ -2,7 +2,7 @@
 
 Contact::Contact(void) {};
 
-Contact::Contact(const Contact& c)
+Contact::Contact(const Contact &c)
 {
 	this->firstname = c.firstname;
 	this->lastname = c.lastname;
@@ -13,7 +13,7 @@ Contact::Contact(const Contact& c)
 
 Contact::~Contact(void) {}
 
-Contact &Contact::operator=(const Contact& c)
+Contact &Contact::operator=(const Contact &c)
 {
 	if (this != &c)
 	{
@@ -27,12 +27,11 @@ Contact &Contact::operator=(const Contact& c)
 }
 
 Contact::Contact(
-	const std::string& firstname,
-	const std::string& lastname,
-	const std::string& nickname,
-	const std::string& phoneNumber,
-	const std::string& darkestSecret
-)
+	const std::string &firstname,
+	const std::string &lastname,
+	const std::string &nickname,
+	const std::string &phoneNumber,
+	const std::string &darkestSecret)
 {
 	this->firstname = firstname;
 	this->lastname = lastname;
@@ -41,21 +40,18 @@ Contact::Contact(
 	this->darkestSecret = darkestSecret;
 };
 
-std::ostream& operator<<(std::ostream& out, const Contact& c)
+void Contact::PrintContact(void)
 {
-	out
-		<< "firstname : " << c.firstname << std::endl
-		<< "lastname : " << c.lastname << std::endl
-		<< "nickname : " << c.nickname << std::endl
-		<< "phone number : " << c.phoneNumber << std::endl
-		<< "darkest secret : " << c.darkestSecret << std::endl
-	;
-	return (out);
+	std::cout
+		<< "firstname : " << this->getFirstname() << std::endl
+		<< "lastname : " << this->getLastname() << std::endl
+		<< "nickname : " << this->getNickname() << std::endl
+		<< "phone number : " << this->getPhoneNumber() << std::endl
+		<< "darkest secret : " << this->getDarkestSecret() << std::endl;
 }
 
-std::string	Contact::getFirstname(void) { return (this->firstname); }
-std::string	Contact::getLastname(void) { return (this->lastname); }
-std::string	Contact::getNickname(void) { return (this->nickname); }
-std::string	Contact::getPhoneNumber(void) { return (this->phoneNumber); }
-std::string	Contact::getDarkestSecret(void) { return (this->darkestSecret); }
-
+std::string Contact::getFirstname(void) { return (this->firstname); }
+std::string Contact::getLastname(void) { return (this->lastname); }
+std::string Contact::getNickname(void) { return (this->nickname); }
+std::string Contact::getPhoneNumber(void) { return (this->phoneNumber); }
+std::string Contact::getDarkestSecret(void) { return (this->darkestSecret); }
