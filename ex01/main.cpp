@@ -2,23 +2,23 @@
 #include "PhoneBook.hpp"
 #include <sstream>
 
-std::string	str_to_upper(std::string s)
+std::string str_to_upper(std::string s)
 {
-	std::string	s_cpy;
+	std::string s_cpy;
 
 	s_cpy = s;
-	for(std::size_t i = 0; i < s_cpy.size(); i++)
+	for (std::size_t i = 0; i < s_cpy.size(); i++)
 		s_cpy[i] = (char)std::toupper(s[i]);
 	return (s_cpy);
 }
 
-void	add(PhoneBook &p)
+void add(PhoneBook &p)
 {
-	std::string	firstname;
-	std::string	lastname;
-	std::string	nickname;
-	std::string	darkestSecret;
-	std::string	phoneNumber;
+	std::string firstname;
+	std::string lastname;
+	std::string nickname;
+	std::string darkestSecret;
+	std::string phoneNumber;
 
 	std::cout << "firstname: ";
 	std::getline(std::cin, firstname);
@@ -33,16 +33,16 @@ void	add(PhoneBook &p)
 	p.addContact(Contact(firstname, lastname, nickname, phoneNumber, darkestSecret));
 }
 
-void	search(PhoneBook &p)
+void search(PhoneBook &p)
 {
-	std::string	answer;
-	int			num;
+	std::string answer;
+	int num;
 
 	p.printContacts();
 	std::cout << "contact to print (cancel to return to menu) :" << std::endl;
 	std::getline(std::cin, answer);
 	if (str_to_upper(answer) == "CANCEL")
-		return ;
+		return;
 	try
 	{
 		std::istringstream iss(answer);
@@ -51,16 +51,16 @@ void	search(PhoneBook &p)
 		else
 			throw std::invalid_argument("invalid answer");
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
 }
 
-int	main(void)
+int main(void)
 {
-	PhoneBook	p;
-	std::string	action;
+	PhoneBook p;
+	std::string action;
 
 	while (1)
 	{
@@ -71,7 +71,7 @@ int	main(void)
 		std::getline(std::cin, action);
 		action = str_to_upper(action);
 		if (action == "EXIT")
-			break ;
+			break;
 		if (action == "ADD")
 			add(p);
 		if (action == "SEARCH")
