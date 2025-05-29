@@ -35,8 +35,14 @@ std::string getInput(const std::string &prompt)
 			std::cerr << "Input error occurred, please try again." << std::endl;
 			continue;
 		}
-		if (!input.empty())
-			break;
+		if (input.empty())
+		{
+			std::cin.clear();
+			std::cout
+				<< "Empty input, please try again." << std::endl;
+			continue;
+		}
+		break;
 	}
 	return input;
 }
@@ -72,7 +78,7 @@ void search(PhoneBook &p)
 		if (iss >> num)
 			p.getContact(num - 1).PrintContact();
 		else
-			throw std::invalid_argument("invalid answer");
+			throw std::invalid_argument("NaN");
 	}
 	catch (const std::exception &e)
 	{

@@ -68,9 +68,6 @@ void PhoneBook::addContact(const Contact &c)
 Contact &PhoneBook::getContact(std::size_t index)
 {
 	if (index >= this->nb_contacts)
-	{
-		std::cerr << "error: invalid index" << std::endl;
 		throw std::out_of_range("Invalid index");
-	}
 	return (this->contacts[index]);
 }
