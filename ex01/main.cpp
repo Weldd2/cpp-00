@@ -12,6 +12,19 @@ std::string str_to_upper(std::string s)
 	return (s_cpy);
 }
 
+std::string getInput(const std::string &prompt)
+{
+	std::string input;
+	while (1)
+	{
+		std::cout << prompt << ": ";
+		std::getline(std::cin, input);
+		if (!input.empty())
+			break;
+	}
+	return input;
+}
+
 void add(PhoneBook &p)
 {
 	std::string firstname;
@@ -20,16 +33,11 @@ void add(PhoneBook &p)
 	std::string darkestSecret;
 	std::string phoneNumber;
 
-	std::cout << "firstname: ";
-	std::getline(std::cin, firstname);
-	std::cout << "lastname: ";
-	std::getline(std::cin, lastname);
-	std::cout << "nickname: ";
-	std::getline(std::cin, nickname);
-	std::cout << "phoneNumber: ";
-	std::getline(std::cin, phoneNumber);
-	std::cout << "darkestSecret: ";
-	std::getline(std::cin, darkestSecret);
+	firstname = getInput("firstname");
+	lastname = getInput("lastname");
+	nickname = getInput("nickname");
+	phoneNumber = getInput("phoneNumber");
+	darkestSecret = getInput("darkestSecret");
 	p.addContact(Contact(firstname, lastname, nickname, phoneNumber, darkestSecret));
 }
 
@@ -39,8 +47,7 @@ void search(PhoneBook &p)
 	int num;
 
 	p.printContacts();
-	std::cout << "contact to print (cancel to return to menu) :" << std::endl;
-	std::getline(std::cin, answer);
+	answer = getInput("Enter contact ID");
 	if (str_to_upper(answer) == "CANCEL")
 		return;
 	try
@@ -61,14 +68,11 @@ int main(void)
 {
 	PhoneBook p;
 	std::string action;
+	const std::string prompt = "What do you want to ?\n- ADD\n- SEARCH\n- EXIT\n";
 
 	while (1)
 	{
-		std::cout << "what do you want to do ?" << std::endl;
-		std::cout << "- ADD" << std::endl;
-		std::cout << "- SEARCH" << std::endl;
-		std::cout << "- EXIT" << std::endl;
-		std::getline(std::cin, action);
+		action = getInput(prompt);
 		action = str_to_upper(action);
 		if (action == "EXIT")
 			break;
