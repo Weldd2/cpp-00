@@ -1,6 +1,8 @@
 #include "Contact.hpp"
 #include "PhoneBook.hpp"
 #include <sstream>
+#include <limits>
+#include <cstdlib>
 
 std::string str_to_upper(std::string s)
 {
@@ -19,6 +21,20 @@ std::string getInput(const std::string &prompt)
 	{
 		std::cout << prompt << ": ";
 		std::getline(std::cin, input);
+		if (std::cin.eof())
+		{
+			std::cin.clear();
+			std::cout << std::endl
+					  << "EOF detected, exiting..." << std::endl;
+			exit(0);
+		}
+		if (std::cin.fail())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cerr << "Input error occurred, please try again." << std::endl;
+			continue;
+		}
 		if (!input.empty())
 			break;
 	}
